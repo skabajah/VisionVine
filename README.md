@@ -48,6 +48,31 @@ The `screenshots/` folder contains example results and test label images you can
 | `sample_2b.jpg` | Sample label image 2b (back label) |
 | `sample_3.png` | Combined label image (front + back in one) |
 
+
+### Gallery Preview
+
+<a href="screenshots/result-1.png" target="_blank">
+  <img src="screenshots/result-1.png" width="120" alt="Result 1" style="border:1px solid #ddd;border-radius:4px;padding:4px;margin:4px;">
+</a>
+<a href="screenshots/result-2.png" target="_blank">
+  <img src="screenshots/result-2.png" width="120" alt="Result 2" style="border:1px solid #ddd;border-radius:4px;padding:4px;margin:4px;">
+</a>
+<a href="screenshots/result-3.png" target="_blank">
+  <img src="screenshots/result-3.png" width="120" alt="Result 3" style="border:1px solid #ddd;border-radius:4px;padding:4px;margin:4px;">
+</a>
+<a href="screenshots/sample_1.jpg" target="_blank">
+  <img src="screenshots/sample_1.jpg" width="120" alt="Sample 1" style="border:1px solid #ddd;border-radius:4px;padding:4px;margin:4px;">
+</a>
+<a href="screenshots/sample_2a.jpg" target="_blank">
+  <img src="screenshots/sample_2a.jpg" width="120" alt="Sample 2a" style="border:1px solid #ddd;border-radius:4px;padding:4px;margin:4px;">
+</a>
+<a href="screenshots/sample_2b.jpg" target="_blank">
+  <img src="screenshots/sample_2b.jpg" width="120" alt="Sample 2b" style="border:1px solid #ddd;border-radius:4px;padding:4px;margin:4px;">
+</a>
+<a href="screenshots/sample_3.png" target="_blank">
+  <img src="screenshots/sample_3.png" width="120" alt="Sample 3" style="border:1px solid #ddd;border-radius:4px;padding:4px;margin:4px;">
+</a>
+
 ---
 
 ## Tech Stack
