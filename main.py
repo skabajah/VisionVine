@@ -32,7 +32,8 @@ async def process_label(files: List[UploadFile] = File(...)):
         content = [
             {
                 "type": "text",
-                "text": "Extract from this alcohol label:\n- Brand name\n- Class/Type\n- ABV\n- Net contents\n- Government warning\n- Beverage type (distilled_spirit, wine, beer)\n\nReturn as JSON only."
+                "text": "Extract from this alcohol label:\\n- Brand name\\n- Class/Type\\n- ABV\\n- Net contents\\n- Government warning (include the full text, including the '\''GOVERNMENT WARNING:'\'' header, if present)\\n- Beverage type (distilled_spirit, wine, beer)\\n\\nIf the label contains multiple images, combine the information from all images.\\nReturn as JSON only."
+
             }
         ]
 
