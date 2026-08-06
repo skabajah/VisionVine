@@ -11,11 +11,15 @@ function cleanGroqResponse(rawText) {
 
         const parsed = JSON.parse(jsonMatch[0]);
 
-        // Normalize field names: lowercase + underscore
+        // Normalize field names: lowercase + underscore (replace spaces AND slashes)
         const normalized = {};
         for (const [key, value] of Object.entries(parsed)) {
-            const newKey = key.toLowerCase().replace(/ /g, "_");
-            normalized[newKey] = value;
+            const newKey = key.toLowerCase().replace(/[ /]/g, "_");
+            let cleanedValue = value;
+            if (typeof value === 'string') {
+                cleanedValue = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            }
+            normalized[newKey] = cleanedValue;
         }
 
         const fields = ["brand_name", "class_type", "abv", "net_contents", "government_warning", "beverage_type"];
