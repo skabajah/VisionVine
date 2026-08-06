@@ -14,45 +14,6 @@ let uploadedFiles = [];
 
 console.log("[0] VisionVine frontend loaded");
 
-// ===== Initialize button state =====
-function setButtonState(state) {
-    // state: 'no_images', 'ready', 'processing', 'done'
-    switch(state) {
-        case 'no_images':
-            processBtn.textContent = "Upload Images First";
-            processBtn.disabled = true;
-            processBtn.classList.remove('enabled');
-            break;
-        case 'ready':
-            processBtn.textContent = "Verify Label";
-            processBtn.disabled = false;
-            processBtn.classList.add('enabled');
-            break;
-        case 'processing':
-            processBtn.textContent = "Verifying...";
-            processBtn.disabled = true;
-            processBtn.classList.remove('enabled');
-            break;
-        case 'done':
-            processBtn.textContent = "Start Over";
-            processBtn.disabled = false;
-            processBtn.classList.add('enabled');
-            break;
-        default:
-            break;
-    }
-}
-
-// ===== Reset the app =====
-function resetApp() {
-    uploadedFiles = [];
-    thumbnails.innerHTML = "";
-    resultsContainer.innerHTML = `<p class="placeholder">Results will appear here.</p>`;
-    statusMsg.textContent = "";
-    setButtonState('no_images');
-    console.log("[0] App reset");
-}
-
 // ===== Click to browse =====
 browseBtn.addEventListener("click", () => {
     console.log("[1] Browse button clicked");
@@ -116,11 +77,10 @@ function handleFiles(files) {
 
     console.log(`[3] Total uploaded files: ${uploadedFiles.length}`);
     statusMsg.textContent = `${uploadedFiles.length} image(s) loaded.`;
-    
+    processBtn.disabled = false;
     if (uploadedFiles.length > 0) {
-        setButtonState('ready');
-    } else {
-        setButtonState('no_images');
+        processBtn.classList.add('enabled');
+        processBtn.disabled = false;
     }
 }
 
@@ -132,10 +92,12 @@ function removeFile(fileToRemove) {
     }
     renderThumbnails();
     if (uploadedFiles.length === 0) {
-        setButtonState('no_images');
+        processBtn.disabled = true;
+        processBtn.classList.remove('enabled');
         statusMsg.textContent = "No images uploaded.";
     } else {
-        setButtonState('ready');
+        processBtn.disabled = false;
+        processBtn.classList.add('enabled');
         statusMsg.textContent = `${uploadedFiles.length} image(s) loaded.`;
     }
 }
@@ -183,12 +145,8 @@ function displayThumbnail(file) {
 
 // ===== Process button =====
 processBtn.addEventListener("click", async () => {
-    // If the button says "Start Over", reset the app
-    if (processBtn.textContent === "Start Over") {
-        resetApp();
-        return;
-    }
-
+    console.log("[5] PROCESS THIS button clicked");
+    
     if (uploadedFiles.length === 0) {
         console.warn("[5] No files uploaded");
         statusMsg.textContent = "Please upload at least one image.";
@@ -196,7 +154,8 @@ processBtn.addEventListener("click", async () => {
     }
 
     console.log(`[5] Starting processing for ${uploadedFiles.length} file(s)`);
-    setButtonState('processing');
+    processBtn.disabled = true;
+    processBtn.textContent = "Processing...";
     statusMsg.textContent = "Sending to AI...";
     resultsContainer.innerHTML = `<p class="placeholder">Waiting for results...</p>`;
 
@@ -204,6 +163,7 @@ processBtn.addEventListener("click", async () => {
         console.log("[6] Creating FormData...");
         const formData = new FormData();
         
+        // ✅ Send all uploaded images
         for (let i = 0; i < uploadedFiles.length; i++) {
             formData.append("files", uploadedFiles[i]);
             console.log(`[6] Added file ${i + 1}: ${uploadedFiles[i].name}`);
@@ -228,12 +188,10 @@ processBtn.addEventListener("click", async () => {
             console.log("[9] Processing successful");
             displayResults(cleanedData);
             statusMsg.textContent = "Processing complete.";
-            setButtonState('done');
         } else {
             console.error("[9] Cleaner error:", cleanedData.error);
             statusMsg.textContent = "Error: " + (cleanedData.error || "Unknown error");
             resultsContainer.innerHTML = `<p class="placeholder">${cleanedData.error || "Unknown error"}</p>`;
-            setButtonState('done');
         }
 
     } catch (error) {
@@ -242,7 +200,15 @@ processBtn.addEventListener("click", async () => {
         console.error("[9] Error stack:", error.stack);
         statusMsg.textContent = "Error: " + error.message;
         resultsContainer.innerHTML = `<p class="placeholder">Failed to connect to backend. Please try again.</p>`;
-        setButtonState('done');
+    } finally {
+        console.log("[9] Re-enabling process button");
+        processBtn.disabled = false;
+        processBtn.textContent = "Process This";
+        if (uploadedFiles.length > 0) {
+            processBtn.classList.add('enabled');
+        } else {
+            processBtn.classList.remove('enabled');
+        }
     }
 });
 
@@ -317,6 +283,3 @@ function displayResults(data) {
     resultsContainer.innerHTML = html;
     console.log("[10] Results displayed");
 }
-
-// ===== Set initial state =====
-setButtonState('no_images');
