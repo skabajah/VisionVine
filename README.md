@@ -1,169 +1,137 @@
-# VisionVine
-
-**AI-Powered Alcohol Label Verification**
-
----
-
-## Overview
-
-VisionVine is a web application that uses AI (Groq's Qwen 3.6-27b vision model) to extract and validate information from alcohol beverage labels. It is designed to assist TTB compliance agents in verifying that labels meet regulatory requirements.
+### 1. Project Title
+**VisionVine** – AI-Powered Alcohol Label Verification
 
 ---
 
-## Features
+### 2. Author, Date & Live Demo
 
-- Upload 1–3 label images (drag & drop or click to browse)
-- AI-powered text extraction (brand name, class/type, ABV, net contents, government warning)
+- **Author:** Shadi Kabajah  
+- **Email:** skabajah@icloud.com  
+- **Date:** August 2026  
+- **Live Demo:** [https://visionvine.onrender.com](https://visionvine.onrender.com)
+
+---
+
+### 3. Overview
+- 2–3 sentences describing what the app does
+- Who it's for (TTB compliance agents)
+- The core problem it solves (manual label verification)
+
+---
+
+### 4. Features
+- Upload **1–3 images per product** (front label, back label, angle shots)
+- Supports:
+  - **Single label image** (one picture)
+  - **Multiple images** (2–3 pictures of the same product)
+  - **Combined label** (multiple labels in one image)
+- AI-powered text extraction (brand, class/type, ABV, net contents, government warning)
 - Automatic beverage type detection (spirits, wine, beer)
 - Validation of required fields
 - Government Warning header check (must be in ALL CAPS)
 - Pass/Fail results with field-by-field status
-- Clean, modern user interface with Material Icons
+- Clean, modern UI with Material Icons
 - Responsive design for desktop and mobile
 
 ---
 
-## Tech Stack
+### 5. Demo Example
 
-| **Component** | **Technology** |
-|---------------|----------------|
-| Backend | Python + FastAPI |
-| AI/OCR | Groq API (Qwen 3.6-27b) |
-| Frontend | HTML + CSS + JavaScript |
-| Icons | Google Material Icons |
-| Hosting | Render (or local development) |
+The `screenshots/` folder contains:
+- **Example results** – Screenshots of the app in action showing PASS and FAIL states
+- **Test label images** – Sample label images you can download and use to test the app
 
----
-
-## Project Structure
-
-```
-VisionVine/
-├── main.py              # FastAPI backend
-├── requirements.txt     # Python dependencies
-├── static/
-│   ├── index.html       # Frontend page
-│   ├── style.css        # Styling
-│   ├── app.js           # Frontend logic
-│   └── cleaner.js       # Data cleaning & validation
-└── README.md            # This file
-```
+| **File** | **Description** |
+|----------|-----------------|
+| `screenshots/pass-result.png` | Example of a PASS result |
+| `screenshots/fail-result.png` | Example of a FAIL result |
+| `screenshots/sample-label-1.png` | Sample label image 1 |
+| `screenshots/sample-label-2.png` | Sample label image 2 |
+| `screenshots/combined-label.png` | Combined label image |
 
 ---
 
-## Setup Instructions
+### 6. Tech Stack
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/skabajah/VisionVine.git
-cd VisionVine
-```
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Set Up Environment Variables
-
-Create a `.env` file or set the following environment variable:
-
-```bash
-export GROQ_API_KEY="your-groq-api-key-here"
-```
-
-### 4. Run Locally
-
-```bash
-python main.py
-```
-
-The app will open automatically at `http://localhost:8000`.
+| **Component** | **Technology** | **Homepage** |
+|---------------|----------------|--------------|
+| Backend | Python + FastAPI | [fastapi.tiangolo.com](https://fastapi.tiangolo.com) |
+| AI / OCR | Groq API (Qwen 3.6-27b) | [console.groq.com](https://console.groq.com) |
+| Frontend | HTML + CSS + JavaScript | — |
+| Icons | Google Material Icons | [fonts.google.com/icons](https://fonts.google.com/icons) |
+| Hosting | Render | [render.com](https://render.com) |
 
 ---
 
-## Deployment
+### 7. UX Path
 
-The app is deployed on Render:
-
-```
-https://visionvine.onrender.com
-```
-
-To deploy your own version:
-
-1. Push your code to GitHub
-2. Connect your repo to Render
-3. Add `GROQ_API_KEY` as an environment variable
-4. Deploy
-
----
-
-## Usage
-
-1. Click the **+** button or drag & drop 1–3 label images
-2. Click **Process This**
-3. View the verification results on the right panel:
-   - Each field shows PASS or FAIL
-   - Government Warning must start with "GOVERNMENT WARNING" in ALL CAPS
+1. User lands on the page and sees a clean split-screen layout.
+2. On the left panel, the user drags and drops **1–3 images** of an alcohol label (or clicks the + button to browse).
+3. The user clicks **"Verify Label"**.
+4. The app sends the image(s) to the backend, which calls Groq's vision model to extract:
+   - Brand name
+   - Class/Type
+   - ABV
+   - Net contents
+   - Government warning
+   - Beverage type
+5. The extracted data is validated against TTB requirements.
+6. Results appear on the right panel with:
+   - Field-by-field PASS/FAIL status
+   - Government Warning header check (must be in ALL CAPS)
    - Overall PASS or FAIL decision
+7. The user can click **"Start Over"** to reset and test another label.
 
 ---
 
-## Validation Rules
-
-| **Field** | **Rule** |
-|-----------|----------|
-| Brand Name | Must be present |
-| Class/Type | Must be present |
-| ABV | Must be present |
-| Net Contents | Must be present |
-| Government Warning | Must be present and start with "GOVERNMENT WARNING" in ALL CAPS |
-| Beverage Type | Must be present (spirits, wine, or beer) |
+### 8. Assumptions
+- List of assumptions made during development
+- e.g., "Supports 1–3 images per product"
+- "Focus on distilled spirits labels"
+- "Government Warning check only verifies the header is in ALL CAPS"
 
 ---
 
-## Assumptions
-
-- Labels are for alcohol beverages (spirits, wine, or beer)
-- The label image is clear enough for OCR
-- The app is a prototype and does not cover all legal variations
-- The Government Warning check only validates the header, not the full text
+### 9. Limitations
+- What the app does not do
+- e.g., "Batch upload for multiple products not yet implemented"
+- "No matching against application form data"
 
 ---
 
-## Limitations
-
-- Supports 1–3 images per product
-- Only one image is processed per request (the first uploaded)
-- Batch upload is not yet implemented
-- Wine and beer labels may have lower OCR accuracy due to decorative fonts
+### 10. Future Enhancements
+- Optional stretch goals
+- e.g., "Add batch upload support"
+- "Support beer and wine labels"
 
 ---
 
-## Future Enhancements
+### 11. File Structure
+- Overview of the project folder structure
 
-- Batch upload support (multiple products at once)
-- Form matching (compare label data against application data)
-- Support for more beverage types
-- Improved fuzzy matching for brand names
-- Export results to CSV or PDF
+```
+visionvine/
+├── main.py
+├── requirements.txt
+├── screenshots/
+│   ├── pass-result.png
+│   ├── fail-result.png
+│   ├── sample-label-1.png
+│   ├── sample-label-2.png
+│   └── combined-label.png
+├── static/
+│   ├── index.html
+│   ├── app.js
+│   ├── cleaner.js
+│   └── style.css
+└── README.md
+```
 
 ---
 
-## License
+### 12. Contact
+- **Author:** Shadi Kabajah  
+- **Email:** skabajah@icloud.com
 
-This project is for demonstration and educational purposes.
-
----
-
-## Contact
-
-**Shadi Kabajah**  
-skabajah@icloud.com
-
----
-
-**VisionVine • Prototype for TTB Label Compliance**
+ 
+ 
