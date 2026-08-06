@@ -93,6 +93,7 @@ function displayThumbnail(file) {
     reader.readAsDataURL(file);
 }
 
+
 // ===== Process button =====
 processBtn.addEventListener("click", async () => {
     console.log("🚀 [5] PROCESS THIS button clicked");
@@ -123,29 +124,22 @@ processBtn.addEventListener("click", async () => {
 
         console.log(`📡 [7] Response received: ${response.status} ${response.statusText}`);
         
-        // 🔍 NEW: Log the raw response as text BEFORE parsing
+        // Get raw response text
         const rawText = await response.text();
         console.log("📄 [8] Raw response text:", rawText);
 
-        // Now try to parse it as JSON
-        console.log("📄 [8] Parsing JSON response...");
-        let data;
-        try {
-            data = JSON.parse(rawText);
-            console.log("✅ [8] JSON parsed successfully:", data);
-        } catch (parseError) {
-            console.error("❌ [8] Failed to parse JSON. Raw response was:", rawText);
-            throw new Error(`Backend returned invalid JSON: ${rawText.substring(0, 100)}...`);
-        }
+        // 🔍 Clean the raw response using cleaner.js
+        const cleanedData = cleanGroqResponse(rawText);
+        console.log("✅ [8] Cleaned data:", cleanedData);
 
-        if (data.success) {
+        if (cleanedData.success) {
             console.log("✅ [9] Processing successful");
-            displayResults(data);
+            displayResults(cleanedData);
             statusMsg.textContent = "✅ Processing complete.";
         } else {
-            console.error("❌ [9] Backend error:", data.error);
-            statusMsg.textContent = "❌ Error: " + (data.error || "Unknown error");
-            resultsContainer.innerHTML = `<p class="placeholder">❌ ${data.error || "Unknown error"}</p>`;
+            console.error("❌ [9] Cleaner error:", cleanedData.error);
+            statusMsg.textContent = "❌ Error: " + (cleanedData.error || "Unknown error");
+            resultsContainer.innerHTML = `<p class="placeholder">❌ ${cleanedData.error || "Unknown error"}</p>`;
         }
 
     } catch (error) {
@@ -160,6 +154,7 @@ processBtn.addEventListener("click", async () => {
         processBtn.textContent = "🚀 PROCESS THIS";
     }
 });
+
 
 // ===== Display results =====
 function displayResults(data) {

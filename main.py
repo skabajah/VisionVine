@@ -46,22 +46,18 @@ async def process_label(file: UploadFile = File(...)):
             messages=[
                 {
                     "role": "system",
-                    "content": """Extract from this alcohol label:
-- Brand name
-- Class/Type
-- ABV
-- Net contents
-- Government warning
-- Beverage type (distilled_spirit, wine, beer)
-
-Return ONLY valid JSON. No extra text, no explanations, no markdown."""
+                    "content": "Extract from this alcohol label:\n- Brand name\n- Class/Type\n- ABV\n- Net contents\n- Government warning\n- Beverage type (distilled_spirit, wine, beer)\n\nReturn as JSON only."
                 },
                 {
                     "role": "user",
                     "content": [
                         {
-                            "type": "image_url",
-                            "image_url": {
+                         "type": "text",
+                         "text": ""
+                        },
+                        {
+                        "type": "image_url",
+                        "image_url": {
                                 "url": f"data:image/jpeg;base64,{base64_image}"
                             }
                         }
