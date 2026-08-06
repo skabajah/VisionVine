@@ -209,6 +209,8 @@ processBtn.addEventListener("click", async () => {
 });
 
 // ===== Display results =====
+
+// ===== Display results =====
 function displayResults(data) {
     console.log("[10] Displaying results...");
     
@@ -239,11 +241,18 @@ function displayResults(data) {
             continue;
         }
 
-        const present = result.present;
+        let present = result.present;
         const value = result.value || "Not found";
-        const extra = field.key === "government_warning" && result.all_caps !== undefined
-            ? (result.all_caps ? " ALL CAPS" : " Not ALL CAPS")
-            : "";
+        let extra = "";
+
+        if (field.key === "government_warning" && result.all_caps !== undefined) {
+            if (result.all_caps === true) {
+                extra = "Standard Warning";
+            } else if (result.all_caps === false) {
+                extra = "Non-Standard Warning";
+                present = false;
+            }
+        }
 
         console.log(`[10] ${field.label}: ${present ? 'PASS' : 'FAIL'} - ${value}`);
 
