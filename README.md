@@ -98,6 +98,10 @@ The `screenshots/` folder contains example results and test label images you can
 - Only one image is processed per request (the first uploaded)
 - Wine and beer labels may have lower OCR accuracy due to decorative fonts
 
+**Free Tier Notes:**
+- The app runs on Render's free tier — if inactive for 15 minutes, it goes to sleep. It will wake up automatically on the next visit (may take 5–15 seconds).
+- Groq API is used on the free tier — token limits apply (200,000 tokens per day). If exceeded, you may see a rate limit error. Wait a few minutes and try again.
+
 ---
 
 ## Future Enhancements
