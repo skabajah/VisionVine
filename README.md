@@ -1,5 +1,5 @@
-# VisionVine
-### AI-Powered Alcohol Label Verification
+# VisionVine  
+*AI-Powered Alcohol Label Verification*
 
 ---
 
