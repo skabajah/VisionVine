@@ -162,12 +162,8 @@ processBtn.addEventListener("click", async () => {
     try {
         console.log("[6] Creating FormData...");
         const formData = new FormData();
-        
-        // ✅ Send all uploaded images
-        for (let i = 0; i < uploadedFiles.length; i++) {
-            formData.append("files", uploadedFiles[i]);
-            console.log(`[6] Added file ${i + 1}: ${uploadedFiles[i].name}`);
-        }
+        formData.append("file", uploadedFiles[0]);
+        console.log(`[6] FormData created with file: ${uploadedFiles[0].name}`);
 
         console.log("[7] Sending POST request to /process...");
         const response = await fetch("/process", {
@@ -211,6 +207,8 @@ processBtn.addEventListener("click", async () => {
         }
     }
 });
+
+// ===== Display results =====
 
 // ===== Display results =====
 function displayResults(data) {
