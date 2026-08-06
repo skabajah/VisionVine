@@ -1,6 +1,6 @@
-// ============================================================
+// ============================================
 // VisionVine – Data Cleaner
-// ============================================================
+// ============================================
 
 function cleanGroqResponse(rawText) {
     try {
@@ -17,7 +17,7 @@ function cleanGroqResponse(rawText) {
             const newKey = key.toLowerCase().replace(/[ /]/g, "_");
             let cleanedValue = value;
             if (typeof value === 'string') {
-                // Skip accent stripping for government_warning
+                // ✅ Skip accent stripping for government_warning
                 if (newKey !== "government_warning") {
                     cleanedValue = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
                 } else {
@@ -38,7 +38,7 @@ function cleanGroqResponse(rawText) {
             if (!present) allPass = false;
         }
 
-        // Check that "GOVERNMENT WARNING" is in ALL CAPS
+        // check that "GOVERNMENT WARNING" is in ALL CAPS
         if (normalized.government_warning) {
             const warning = normalized.government_warning;
             const cleanWarning = warning.trim();

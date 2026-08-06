@@ -1,8 +1,6 @@
-// ============================================================
+// ============================================
 // VisionVine – Frontend Logic (Render Version)
-// ============================================================
-// Multi-Image Support | Reset via window.location.reload()
-// ============================================================
+// ============================================
 
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
@@ -16,49 +14,7 @@ let uploadedFiles = [];
 
 console.log("[0] VisionVine frontend loaded");
 
-// ============================================================
-// STATE MANAGEMENT
-// ============================================================
-
-function setButtonState(state) {
-    switch (state) {
-        case "no_images":
-            processBtn.textContent = "Upload Images First";
-            processBtn.disabled = true;
-            processBtn.classList.remove("enabled");
-            break;
-        case "ready":
-            processBtn.textContent = "Verify Label";
-            processBtn.disabled = false;
-            processBtn.classList.add("enabled");
-            break;
-        case "processing":
-            processBtn.textContent = "Verifying...";
-            processBtn.disabled = true;
-            processBtn.classList.remove("enabled");
-            break;
-        case "done":
-            processBtn.textContent = "Start Over";
-            processBtn.disabled = false;
-            processBtn.classList.add("enabled");
-            break;
-        default:
-            break;
-    }
-}
-
-// ============================================================
-// RESET APPLICATION (via page reload)
-// ============================================================
-
-function resetApp() {
-    window.location.reload();
-}
-
-// ============================================================
-// UI EVENT BINDING
-// ============================================================
-
+// ===== Click to browse =====
 browseBtn.addEventListener("click", () => {
     console.log("[1] Browse button clicked");
     fileInput.click();
@@ -69,12 +25,14 @@ dropZone.addEventListener("click", () => {
     fileInput.click();
 });
 
+// ===== File selection =====
 fileInput.addEventListener("change", (e) => {
     const files = Array.from(e.target.files);
     console.log(`[2] File input changed: ${files.length} file(s) selected`);
     handleFiles(files);
 });
 
+// ===== Drag and drop =====
 dropZone.addEventListener("dragover", (e) => {
     e.preventDefault();
     dropZone.classList.add("dragover");
@@ -94,13 +52,10 @@ dropZone.addEventListener("drop", (e) => {
     handleFiles(files);
 });
 
-// ============================================================
-// FILE HANDLING
-// ============================================================
-
+// ===== Handle uploaded files =====
 function handleFiles(files) {
     console.log(`[3] handleFiles called with ${files.length} file(s)`);
-
+    
     if (uploadedFiles.length + files.length > 3) {
         console.warn("[3] Maximum 3 images allowed");
         statusMsg.textContent = "Maximum 3 images allowed.";
@@ -108,7 +63,6 @@ function handleFiles(files) {
     }
 
     let validFiles = 0;
-
     files.forEach((file) => {
         if (!file.type.startsWith("image/")) {
             console.warn(`[3] Skipping non-image file: ${file.name} (${file.type})`);
@@ -123,18 +77,32 @@ function handleFiles(files) {
 
     console.log(`[3] Total uploaded files: ${uploadedFiles.length}`);
     statusMsg.textContent = `${uploadedFiles.length} image(s) loaded.`;
-
+    processBtn.disabled = false;
     if (uploadedFiles.length > 0) {
-        setButtonState("ready");
-    } else {
-        setButtonState("no_images");
+        processBtn.classList.add('enabled');
+        processBtn.disabled = false;
     }
 }
 
-// ============================================================
-// THUMBNAIL MANAGEMENT
-// ============================================================
+// ===== Remove file =====
+function removeFile(fileToRemove) {
+    const index = uploadedFiles.indexOf(fileToRemove);
+    if (index !== -1) {
+        uploadedFiles.splice(index, 1);
+    }
+    renderThumbnails();
+    if (uploadedFiles.length === 0) {
+        processBtn.disabled = true;
+        processBtn.classList.remove('enabled');
+        statusMsg.textContent = "No images uploaded.";
+    } else {
+        processBtn.disabled = false;
+        processBtn.classList.add('enabled');
+        statusMsg.textContent = `${uploadedFiles.length} image(s) loaded.`;
+    }
+}
 
+// ===== Render thumbnails =====
 function renderThumbnails() {
     thumbnails.innerHTML = "";
     for (const file of uploadedFiles) {
@@ -142,11 +110,10 @@ function renderThumbnails() {
     }
 }
 
+// ===== Display thumbnail =====
 function displayThumbnail(file) {
     console.log(`[4] Displaying thumbnail for: ${file.name}`);
-
     const reader = new FileReader();
-
     reader.onload = (e) => {
         const wrapper = document.createElement("div");
         wrapper.className = "thumbnail-wrapper";
@@ -173,37 +140,13 @@ function displayThumbnail(file) {
         thumbnails.appendChild(wrapper);
         console.log(`[4] Thumbnail rendered for: ${file.name}`);
     };
-
     reader.readAsDataURL(file);
 }
 
-function removeFile(fileToRemove) {
-    const index = uploadedFiles.indexOf(fileToRemove);
-    if (index !== -1) {
-        uploadedFiles.splice(index, 1);
-    }
-    renderThumbnails();
-
-    if (uploadedFiles.length === 0) {
-        setButtonState("no_images");
-        statusMsg.textContent = "No images uploaded.";
-    } else {
-        setButtonState("ready");
-        statusMsg.textContent = `${uploadedFiles.length} image(s) loaded.`;
-    }
-}
-
-// ============================================================
-// MAIN PROCESSING
-// ============================================================
-
+// ===== Process button =====
 processBtn.addEventListener("click", async () => {
-    // Handle "Start Over" click
-    if (processBtn.textContent === "Start Over") {
-        resetApp();
-        return;
-    }
-
+    console.log("[5] PROCESS THIS button clicked");
+    
     if (uploadedFiles.length === 0) {
         console.warn("[5] No files uploaded");
         statusMsg.textContent = "Please upload at least one image.";
@@ -211,41 +154,29 @@ processBtn.addEventListener("click", async () => {
     }
 
     console.log(`[5] Starting processing for ${uploadedFiles.length} file(s)`);
-    setButtonState("processing");
+    processBtn.disabled = true;
+    processBtn.textContent = "Processing...";
     statusMsg.textContent = "Sending to AI...";
-    resultsContainer.innerHTML = '<p class="placeholder">Waiting for results...</p>';
+    resultsContainer.innerHTML = `<p class="placeholder">Waiting for results...</p>`;
 
     try {
+        console.log("[6] Creating FormData...");
         const formData = new FormData();
-
-        for (let i = 0; i < uploadedFiles.length; i++) {
-            formData.append("files", uploadedFiles[i]);
-            console.log(`[6] Added file ${i + 1}: ${uploadedFiles[i].name}`);
-        }
+        formData.append("file", uploadedFiles[0]);
+        console.log(`[6] FormData created with file: ${uploadedFiles[0].name}`);
 
         console.log("[7] Sending POST request to /process...");
-
         const response = await fetch("/process", {
             method: "POST",
-            body: formData,
+            body: formData
         });
 
         console.log(`[7] Response received: ${response.status} ${response.statusText}`);
-
+        
         const rawText = await response.text();
         console.log("[8] Raw response text:", rawText);
 
         const parsedResponse = JSON.parse(rawText);
-
-        // ✅ Safety check: ensure raw_response exists
-        if (!parsedResponse.raw_response) {
-            console.error("[8] No raw_response in parsed response");
-            statusMsg.textContent = "Error: No response from AI";
-            resultsContainer.innerHTML = '<p class="placeholder">Error: No response from AI</p>';
-            setButtonState("done");
-            return;
-        }
-
         const cleanedData = cleanGroqResponse(parsedResponse.raw_response);
         console.log("[8] Cleaned data:", cleanedData);
 
@@ -253,30 +184,36 @@ processBtn.addEventListener("click", async () => {
             console.log("[9] Processing successful");
             displayResults(cleanedData);
             statusMsg.textContent = "Processing complete.";
-            setButtonState("done");
         } else {
             console.error("[9] Cleaner error:", cleanedData.error);
             statusMsg.textContent = "Error: " + (cleanedData.error || "Unknown error");
             resultsContainer.innerHTML = `<p class="placeholder">${cleanedData.error || "Unknown error"}</p>`;
-            setButtonState("done");
         }
+
     } catch (error) {
         console.error("[9] Fetch error:", error);
         console.error("[9] Error message:", error.message);
         console.error("[9] Error stack:", error.stack);
         statusMsg.textContent = "Error: " + error.message;
-        resultsContainer.innerHTML = '<p class="placeholder">Failed to connect to backend. Please try again.</p>';
-        setButtonState("done");
+        resultsContainer.innerHTML = `<p class="placeholder">Failed to connect to backend. Please try again.</p>`;
+    } finally {
+        console.log("[9] Re-enabling process button");
+        processBtn.disabled = false;
+        processBtn.textContent = "Process This";
+        if (uploadedFiles.length > 0) {
+            processBtn.classList.add('enabled');
+        } else {
+            processBtn.classList.remove('enabled');
+        }
     }
 });
 
-// ============================================================
-// DISPLAY RESULTS
-// ============================================================
+// ===== Display results =====
 
+// ===== Display results =====
 function displayResults(data) {
     console.log("[10] Displaying results...");
-
+    
     if (!data.success) {
         console.error("[10] Data success is false:", data.error);
         resultsContainer.innerHTML = `<p class="placeholder">Error: ${data.error || "Unknown error"}</p>`;
@@ -286,20 +223,19 @@ function displayResults(data) {
     const validation = data.validation;
     const overall = data.overall_pass;
 
+    let html = "";
+
     const fields = [
         { key: "brand_name", label: "Brand Name" },
         { key: "class_type", label: "Class / Type" },
         { key: "beverage_type", label: "Beverage Type" },
         { key: "abv", label: "ABV" },
         { key: "net_contents", label: "Net Contents" },
-        { key: "government_warning", label: "Government Warning" },
+        { key: "government_warning", label: "Government Warning" }
     ];
-
-    let html = "";
 
     for (const field of fields) {
         const result = validation[field.key];
-
         if (!result) {
             console.warn(`[10] No validation data for: ${field.key}`);
             continue;
@@ -318,14 +254,14 @@ function displayResults(data) {
             }
         }
 
-        console.log(`[10] ${field.label}: ${present ? "PASS" : "FAIL"} - ${value}`);
+        console.log(`[10] ${field.label}: ${present ? 'PASS' : 'FAIL'} - ${value}`);
 
         html += `
             <div class="result-item">
                 <span class="result-label">${field.label}</span>
                 <span class="result-value">${value}${extra}</span>
-                <span class="result-status ${present ? "pass" : "fail"}">
-                    <span class="material-icons">${present ? "check_circle" : "cancel"}</span>
+                <span class="result-status ${present ? 'pass' : 'fail'}">
+                    <span class="material-icons">${present ? 'check_circle' : 'cancel'}</span>
                 </span>
             </div>
         `;
@@ -345,9 +281,3 @@ function displayResults(data) {
     resultsContainer.innerHTML = html;
     console.log("[10] Results displayed");
 }
-
-// ============================================================
-// INITIALIZATION
-// ============================================================
-
-setButtonState("no_images");
