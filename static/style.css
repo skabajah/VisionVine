@@ -292,6 +292,51 @@ header {
     font-size: 48px;
     line-height: 1;
 }
+/* ===== THUMBNAIL REMOVE BUTTON ===== */
+.thumbnail-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.thumbnail-wrapper img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.thumbnail-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    background: #b22234;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background 0.15s, transform 0.1s;
+    padding: 0;
+}
+
+.thumbnail-remove:hover {
+    background: #8a1a2a;
+    transform: scale(1.1);
+}
+
+.thumbnail-remove .material-icons {
+    font-size: 16px;
+    line-height: 1;
+}
+
 /* ===== FOOTER ===== */
 footer {
     text-align: center;
