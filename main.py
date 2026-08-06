@@ -84,3 +84,8 @@ async def process_label(file: UploadFile = File(...)):
             "success": False,
             "error": str(e)
         })
+
+
+@app.get("/health")
+async def health_check():
+    return {"status": "ok", "message": "VisionVine is running"}
