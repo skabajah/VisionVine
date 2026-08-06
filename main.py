@@ -1,7 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
-from typing import List
 import groq
 import os
 import base64
@@ -23,38 +22,20 @@ async def root():
         return HTMLResponse(f.read())
 
 @app.post("/process")
-async def process_label(files: List[UploadFile] = File(...)):
+async def process_label(file: UploadFile = File(...)):
     print("=" * 60)
-    print(f"📸 [2] Received {len(files)} image(s)")
+    print("📸 [2] Image received by backend")
     
     try:
-        # Build content array with text prompt + all images
-        content = [
-            {
-                "type": "text",
-                "text": "Extract from this alcohol label:\\n- Brand name\\n- Class/Type\\n- ABV\\n- Net contents\\n- Government warning (include the full text, including the '\''GOVERNMENT WARNING:'\'' header, if present)\\n- Beverage type (distilled_spirit, wine, beer)\\n\\nIf the label contains multiple images, combine the information from all images.\\nReturn as JSON only."
-
-            }
-        ]
-
-        # Process each image
-        for idx, file in enumerate(files):
-            print(f"📖 [3] Reading image {idx + 1}: {file.filename}")
-            contents = await file.read()
-            print(f"✅ [3] Image {idx + 1} read: {len(contents)} bytes")
-            
-            print(f"🔐 [4] Converting image {idx + 1} to base64...")
-            base64_image = base64.b64encode(contents).decode("utf-8")
-            print(f"✅ [4] Base64 conversion complete: {len(base64_image)} characters")
-            
-            content.append({
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{base64_image}"
-                }
-            })
-
-        print(f"🤖 [5] Calling Groq API with {len(files)} image(s)...")
+        print("📖 [3] Reading image file...")
+        contents = await file.read()
+        print(f"✅ [3] Image read: {len(contents)} bytes")
+        
+        print("🔐 [4] Converting to base64...")
+        base64_image = base64.b64encode(contents).decode("utf-8")
+        print(f"✅ [4] Base64 conversion complete: {len(base64_image)} characters")
+        
+        print("🤖 [5] Calling Groq API...")
         print(f"   [5] Model: qwen/qwen3.6-27b")
         print(f"   [5] API Key set: {bool(GROQ_API_KEY)}")
         
@@ -67,7 +48,14 @@ async def process_label(files: List[UploadFile] = File(...)):
                 },
                 {
                     "role": "user",
-                    "content": content
+                    "content": [
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{base64_image}"
+                            }
+                        }
+                    ]
                 }
             ]
         )
