@@ -17,7 +17,12 @@ function cleanGroqResponse(rawText) {
             const newKey = key.toLowerCase().replace(/[ /]/g, "_");
             let cleanedValue = value;
             if (typeof value === 'string') {
-                cleanedValue = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                // ✅ Skip accent stripping for government_warning
+                if (newKey !== "government_warning") {
+                    cleanedValue = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                } else {
+                    cleanedValue = value; // Keep warning text as-is
+                }
             }
             normalized[newKey] = cleanedValue;
         }
