@@ -17,27 +17,27 @@ client = groq.Client(api_key=GROQ_API_KEY)
 
 @app.get("/")
 async def root():
-    print("✅ Serving index.html")
+    print("✅ [1] Serving index.html")
     with open("static/index.html", "r") as f:
         return HTMLResponse(f.read())
 
 @app.post("/process")
 async def process_label(file: UploadFile = File(...)):
     print("=" * 50)
-    print("📸 STEP 1: Image received by backend")
+    print("📸 [2] Image received by backend")
     
     try:
-        print("📖 STEP 2: Reading image file...")
+        print("📖 [3] Reading image file...")
         contents = await file.read()
-        print(f"✅ Image read: {len(contents)} bytes")
+        print(f"✅ [3] Image read: {len(contents)} bytes")
         
-        print("🔐 STEP 3: Converting to base64...")
+        print("🔐 [4] Converting to base64...")
         base64_image = base64.b64encode(contents).decode("utf-8")
-        print(f"✅ Base64 conversion complete: {len(base64_image)} characters")
+        print(f"✅ [4] Base64 conversion complete: {len(base64_image)} characters")
         
-        print("🤖 STEP 4: Calling Groq API...")
-        print(f"   Model: qwen/qwen3.6-27b")
-        print(f"   API Key set: {bool(GROQ_API_KEY)}")
+        print("🤖 [5] Calling Groq API...")
+        print(f"   [5] Model: qwen/qwen3.6-27b")
+        print(f"   [5] API Key set: {bool(GROQ_API_KEY)}")
         
         response = client.chat.completions.create(
             model="qwen/qwen3.6-27b",
@@ -68,18 +68,18 @@ async def process_label(file: UploadFile = File(...)):
             ]
         )
         
-        print("✅ Groq API call successful")
+        print("✅ [5] Groq API call successful")
         
-        print("📝 STEP 5: Extracting response content...")
+        print("📝 [6] Extracting response content...")
         data = response.choices[0].message.content
-        print(f"✅ Raw response received ({len(data)} characters)")
-        print(f"📄 Raw response preview: {data[:200]}...")
+        print(f"✅ [6] Raw response received ({len(data)} characters)")
+        print(f"📄 [6] Raw response preview: {data[:200]}...")
         
-        print("🔍 STEP 6: Parsing JSON...")
+        print("🔍 [7] Parsing JSON...")
         parsed = json.loads(data)
-        print("✅ JSON parsed successfully")
+        print("✅ [7] JSON parsed successfully")
         
-        print("✅ STEP 7: Validating extracted data...")
+        print("✅ [8] Validating extracted data...")
         fields = ["brand_name", "class_type", "abv", "net_contents", "government_warning", "beverage_type"]
         results = {}
         all_pass = True
@@ -90,16 +90,16 @@ async def process_label(file: UploadFile = File(...)):
             results[field] = {"present": present, "value": val or "Not found"}
             if not present:
                 all_pass = False
-                print(f"   ⚠️ Missing field: {field}")
+                print(f"   [8] ⚠️ Missing field: {field}")
         
         if parsed.get("government_warning"):
             warning = parsed["government_warning"]
             results["government_warning"]["all_caps"] = warning == warning.upper()
             if warning != warning.upper():
                 all_pass = False
-                print("   ⚠️ Government warning not in ALL CAPS")
+                print("   [8] ⚠️ Government warning not in ALL CAPS")
         
-        print(f"✅ Validation complete. Overall: {'PASS' if all_pass else 'FAIL'}")
+        print(f"✅ [8] Validation complete. Overall: {'PASS' if all_pass else 'FAIL'}")
         print("=" * 50)
         
         return JSONResponse({
@@ -110,8 +110,8 @@ async def process_label(file: UploadFile = File(...)):
         })
         
     except Exception as e:
-        print(f"❌ ERROR: {str(e)}")
-        print(f"❌ Error type: {type(e).__name__}")
+        print(f"❌ [ERROR] {str(e)}")
+        print(f"❌ [ERROR] Error type: {type(e).__name__}")
         print("=" * 50)
         return JSONResponse({
             "success": False,
