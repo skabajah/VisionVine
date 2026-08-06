@@ -33,9 +33,13 @@ function cleanGroqResponse(rawText) {
             if (!present) allPass = false;
         }
 
+        // check that "GOVERNMENT WARNING" is in ALL CAPS
         if (normalized.government_warning) {
             const warning = normalized.government_warning;
-            results.government_warning.all_caps = (warning === warning.toUpperCase());
+            const cleanWarning = warning.trim();
+            const hasGovWarningHeader = /^GOVERNMENT WARNING:?/i.test(cleanWarning);
+            const isHeaderAllCaps = /^GOVERNMENT WARNING:?/.test(cleanWarning);
+            results.government_warning.all_caps = hasGovWarningHeader && isHeaderAllCaps;
             if (!results.government_warning.all_caps) allPass = false;
         }
 
