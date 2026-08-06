@@ -17,28 +17,15 @@ client = groq.Client(api_key=GROQ_API_KEY)
 
 @app.get("/")
 async def root():
-    print("✅ Serving index.html")
     with open("static/index.html", "r") as f:
         return HTMLResponse(f.read())
 
 @app.post("/process")
 async def process_label(file: UploadFile = File(...)):
-    print("=" * 50)
-    print("📸 STEP 1: Image received by backend")
-    
     try:
-        print("📖 STEP 2: Reading image file...")
         contents = await file.read()
-        print(f"✅ Image read: {len(contents)} bytes")
-        
-        print("🔐 STEP 3: Converting to base64...")
         base64_image = base64.b64encode(contents).decode("utf-8")
-        print(f"✅ Base64 conversion complete: {len(base64_image)} characters")
-        
-        print("🤖 STEP 4: Calling Groq API...")
-        print(f"   Model: qwen/qwen3.6-27b")
-        print(f"   API Key set: {bool(GROQ_API_KEY)}")
-        
+
         response = client.chat.completions.create(
             model="qwen/qwen3.6-27b",
             messages=[
@@ -67,52 +54,35 @@ async def process_label(file: UploadFile = File(...)):
                 }
             ]
         )
-        
-        print("✅ Groq API call successful")
-        
-        print("📝 STEP 5: Extracting response content...")
+
         data = response.choices[0].message.content
-        print(f"✅ Raw response received ({len(data)} characters)")
-        print(f"📄 Raw response preview: {data[:200]}...")
-        
-        print("🔍 STEP 6: Parsing JSON...")
         parsed = json.loads(data)
-        print("✅ JSON parsed successfully")
-        
-        print("✅ STEP 7: Validating extracted data...")
+
         fields = ["brand_name", "class_type", "abv", "net_contents", "government_warning", "beverage_type"]
         results = {}
         all_pass = True
-        
+
         for field in fields:
             val = parsed.get(field, "")
             present = bool(val and val.strip() and val != "Not readable")
             results[field] = {"present": present, "value": val or "Not found"}
             if not present:
                 all_pass = False
-                print(f"   ⚠️ Missing field: {field}")
-        
+
         if parsed.get("government_warning"):
             warning = parsed["government_warning"]
             results["government_warning"]["all_caps"] = warning == warning.upper()
             if warning != warning.upper():
                 all_pass = False
-                print("   ⚠️ Government warning not in ALL CAPS")
-        
-        print(f"✅ Validation complete. Overall: {'PASS' if all_pass else 'FAIL'}")
-        print("=" * 50)
-        
+
         return JSONResponse({
             "success": True,
             "extracted": parsed,
             "validation": results,
             "overall_pass": all_pass
         })
-        
+
     except Exception as e:
-        print(f"❌ ERROR: {str(e)}")
-        print(f"❌ Error type: {type(e).__name__}")
-        print("=" * 50)
         return JSONResponse({
             "success": False,
             "error": str(e)
