@@ -78,6 +78,11 @@ function handleFiles(files) {
     console.log(`📊 [3] Total uploaded files: ${uploadedFiles.length}`);
     statusMsg.textContent = `✅ ${uploadedFiles.length} image(s) loaded.`;
     processBtn.disabled = false;
+    // Enable the process button if at least one image is uploaded
+    if (uploadedFiles.length > 0) {
+        processBtn.classList.add('enabled');
+        processBtn.disabled = false;
+    }
 }
 
 // ===== Display thumbnail =====

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VisionVine – AI Label Verification</title>
-    <link rel="stylesheet" href="https://visionvine.onrender.com/static/style.css" />
+    <link rel="stylesheet" href="../static/style2.css" />
 </head>
 <body>
 
@@ -24,19 +24,19 @@
 
                 <h2>Upload Label</h2>
 
-                <!-- Drop Zone -->
+                <!-- Drop Zone with large + button -->
                 <div class="drop-zone" id="dropZone">
-                    <p>📸 Drag &amp; drop label images here</p>
-                    <p class="hint">(1–3 images per product)</p>
+                    <button class="btn-plus" id="browseBtn" type="button">+</button>
+                    <p class="drop-text">Upload up to 3 images</p>
+                    <p class="hint">Click the + button or drag &amp; drop</p>
                     <input type="file" id="fileInput" accept="image/*" multiple hidden />
-                    <button class="btn-secondary" id="browseBtn">Browse Files</button>
                 </div>
 
                 <!-- Thumbnails Preview -->
                 <div class="thumbnails" id="thumbnails"></div>
 
                 <!-- Process Button -->
-                <button class="btn-primary" id="processBtn">🚀 PROCESS THIS</button>
+                <button class="btn-primary" id="processBtn">Process This</button>
 
                 <!-- Status Message -->
                 <div id="statusMessage" class="status-message"></div>
@@ -50,7 +50,7 @@
 
                 <!-- Results will be injected here by app.js -->
                 <div id="resultsContainer">
-                    <p class="placeholder">Upload a label and click "PROCESS THIS" to see results.</p>
+                    <p class="placeholder">Results will appear here.</p>
                 </div>
 
             </section>
@@ -59,13 +59,13 @@
 
         <!-- Footer -->
         <footer>
-            <p>VisionVine &bull; Prototype for TTB Label Compliance</p>
+            <p>VisionVine &bull; Prototype for TTB Label Compliance &bull;  skabajah@icloud.com  &bull;  2026-08-06</p>
         </footer>
 
     </div>
 
-    <script src="https://visionvine.onrender.com/static/app.js"></script>
-    <script src="https://visionvine.onrender.com/static/cleaner.js"></script>
+    <script src="../static/app.js"></script>
+    <script src="../static/cleaner.js"></script>
 
 </body>
 </html>
