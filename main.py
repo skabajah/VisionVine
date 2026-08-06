@@ -5,6 +5,7 @@ import groq
 import os
 import base64
 import json
+import re
 
 app = FastAPI()
 
@@ -39,24 +40,25 @@ async def process_label(file: UploadFile = File(...)):
         print(f"   [5] Model: qwen/qwen3.6-27b")
         print(f"   [5] API Key set: {bool(GROQ_API_KEY)}")
         
+        # ✅ EXACT STRUCTURE FROM YOUR WORKING CURL TEST
         response = client.chat.completions.create(
             model="qwen/qwen3.6-27b",
             messages=[
                 {
+                    "role": "system",
+                    "content": """Extract from this alcohol label:
+- Brand name
+- Class/Type
+- ABV
+- Net contents
+- Government warning
+- Beverage type (distilled_spirit, wine, beer)
+
+Return ONLY valid JSON. No extra text, no explanations, no markdown."""
+                },
+                {
                     "role": "user",
                     "content": [
-                        {
-                            "type": "text",
-                            "text": """Extract from this alcohol label:
-                            - Brand name
-                            - Class/Type
-                            - ABV
-                            - Net contents
-                            - Government warning
-                            - Beverage type (distilled_spirit, wine, beer)
-
-                            Return as JSON only."""
-                        },
                         {
                             "type": "image_url",
                             "image_url": {
@@ -75,11 +77,40 @@ async def process_label(file: UploadFile = File(...)):
         print(f"✅ [6] Raw response received ({len(data)} characters)")
         print(f"📄 [6] Raw response preview: {data[:200]}...")
         
-        print("🔍 [7] Parsing JSON...")
-        parsed = json.loads(data)
-        print("✅ [7] JSON parsed successfully")
+        # Extract JSON from the response
+        print("🔍 [7] Extracting JSON from response...")
+        json_match = re.search(r'\{.*\}', data, re.DOTALL)
+        if json_match:
+            clean_data = json_match.group(0)
+            print("✅ [7] JSON extracted successfully")
+        else:
+            print("❌ [7] No JSON found in response")
+            raise ValueError("No JSON found in response")
         
-        print("✅ [8] Validating extracted data...")
+        print("🔍 [8] Parsing JSON...")
+        parsed = json.loads(clean_data)
+        print("✅ [8] JSON parsed successfully")
+        
+        # Normalize the keys to match your app's field names
+        print("🔄 [8] Normalizing field names...")
+        key_map = {
+            "Brand name": "brand_name",
+            "Class/Type": "class_type",
+            "ABV": "abv",
+            "Net contents": "net_contents",
+            "Government warning": "government_warning",
+            "Beverage type": "beverage_type"
+        }
+        normalized = {}
+        for key, value in parsed.items():
+            if key in key_map:
+                normalized[key_map[key]] = value
+            else:
+                normalized[key] = value
+        parsed = normalized
+        print("✅ [8] Field names normalized")
+        
+        print("✅ [9] Validating extracted data...")
         fields = ["brand_name", "class_type", "abv", "net_contents", "government_warning", "beverage_type"]
         results = {}
         all_pass = True
@@ -90,16 +121,16 @@ async def process_label(file: UploadFile = File(...)):
             results[field] = {"present": present, "value": val or "Not found"}
             if not present:
                 all_pass = False
-                print(f"   [8] ⚠️ Missing field: {field}")
+                print(f"   [9] ⚠️ Missing field: {field}")
         
         if parsed.get("government_warning"):
             warning = parsed["government_warning"]
             results["government_warning"]["all_caps"] = warning == warning.upper()
             if warning != warning.upper():
                 all_pass = False
-                print("   [8] ⚠️ Government warning not in ALL CAPS")
+                print("   [9] ⚠️ Government warning not in ALL CAPS")
         
-        print(f"✅ [8] Validation complete. Overall: {'PASS' if all_pass else 'FAIL'}")
+        print(f"✅ [9] Validation complete. Overall: {'PASS' if all_pass else 'FAIL'}")
         print("=" * 50)
         
         return JSONResponse({
