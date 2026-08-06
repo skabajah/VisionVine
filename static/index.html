@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VisionVine – AI Label Verification</title>
     <link rel="stylesheet" href="../static/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
@@ -26,7 +27,9 @@
 
                 <!-- Drop Zone with large + button -->
                 <div class="drop-zone" id="dropZone">
-                    <button class="btn-plus" id="browseBtn" type="button">+</button>
+                    <button class="btn-plus" id="browseBtn" type="button">
+                        <span class="material-icons">add_photo_alternate</span>
+                    </button>
                     <p class="drop-text">Upload up to 3 images</p>
                     <p class="hint">Click the + button or drag &amp; drop</p>
                     <input type="file" id="fileInput" accept="image/*" multiple hidden />

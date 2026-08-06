@@ -288,7 +288,10 @@ header {
     background: #b22234;
     color: white;
 }
-
+.btn-plus .material-icons {
+    font-size: 48px;
+    line-height: 1;
+}
 /* ===== FOOTER ===== */
 footer {
     text-align: center;
