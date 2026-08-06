@@ -129,7 +129,8 @@ processBtn.addEventListener("click", async () => {
         console.log("📄 [8] Raw response text:", rawText);
 
         // 🔍 Clean the raw response using cleaner.js
-        const cleanedData = cleanGroqResponse(rawText);
+        const parsedResponse = JSON.parse(rawText);
+        const cleanedData = cleanGroqResponse(parsedResponse.raw_response);
         console.log("✅ [8] Cleaned data:", cleanedData);
 
         if (cleanedData.success) {
