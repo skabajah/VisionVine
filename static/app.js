@@ -83,7 +83,6 @@ processBtn.addEventListener("click", async () => {
     resultsContainer.innerHTML = `<p class="placeholder">⏳ Waiting for results...</p>`;
 
     try {
-        // Send only the first image (for now)
         const formData = new FormData();
         formData.append("file", uploadedFiles[0]);
 
