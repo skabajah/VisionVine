@@ -222,6 +222,16 @@ processBtn.addEventListener("click", async () => {
         console.log("[8] Raw response text:", rawText);
 
         const parsedResponse = JSON.parse(rawText);
+
+        // ADD THE SAFETY CHECK HERE
+        if (!parsedResponse.raw_response) {
+            console.error("[8] No raw_response in parsed response");
+            statusMsg.textContent = "Error: No response from AI";
+            resultsContainer.innerHTML = `<p class="placeholder">Error: No response from AI</p>`;
+            setButtonState('done');
+            return;
+        }
+
         const cleanedData = cleanGroqResponse(parsedResponse.raw_response);
         console.log("[8] Cleaned data:", cleanedData);
 
