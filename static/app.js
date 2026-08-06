@@ -247,9 +247,9 @@ function displayResults(data) {
 
         if (field.key === "government_warning" && result.all_caps !== undefined) {
             if (result.all_caps === true) {
-                extra = "Standard Warning";
+                extra = "<br>Standard Warning";
             } else if (result.all_caps === false) {
-                extra = "Non-Standard Warning";
+                extra = "<br>Non-Standard Warning";
                 present = false;
             }
         }
