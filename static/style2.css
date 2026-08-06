@@ -125,21 +125,34 @@ header {
     margin-top: 6px;
 }
 
-.btn-secondary {
-    background: #f1f4f9;
-    border: none;
-    padding: 8px 22px;
-    border-radius: 40px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #1e293b;
-    margin-top: 16px;
+/* ===== + BUTTON ===== */
+.btn-plus {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #eef3fc;
+    color: #0b2b4a;
+    border: 2px dashed #0b2b4a;
+    font-size: 48px;
+    font-weight: 300;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s, transform 0.15s, border-color 0.2s;
+    margin: 0 auto 12px auto;
+    display: block;
+    line-height: 1;
 }
 
-.btn-secondary:hover {
-    background: #e2e8f0;
+.btn-plus:hover {
+    background: #dce7f7;
+    border-color: #1a405f;
+    transform: scale(1.04);
+}
+
+.drop-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1e293b;
+    margin: 8px 0 4px 0;
 }
 
 .thumbnails {
@@ -160,9 +173,10 @@ header {
     box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 
+/* ===== PROCESS BUTTON ===== */
 .btn-primary {
     width: 100%;
-    background: #0b2b4a;
+    background: #9aabbd;
     color: white;
     border: none;
     padding: 16px;
@@ -170,17 +184,17 @@ header {
     font-size: 18px;
     font-weight: 600;
     margin-top: 24px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-}
-
-.btn-primary:hover {
-    background: #1a405f;
-}
-
-.btn-primary:disabled {
-    background: #9aabbd;
     cursor: not-allowed;
+    transition: background 0.2s;
+}
+
+.btn-primary.enabled {
+    background: #0b2b4a;
+    cursor: pointer;
+}
+
+.btn-primary.enabled:hover {
+    background: #1a405f;
 }
 
 .status-message {
@@ -206,12 +220,14 @@ header {
     padding: 44px 0;
 }
 
+/* === RESULT ITEMS — FIXED ALIGNMENT === */
 .result-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 0;
     border-bottom: 1px solid #edf2f7;
+    gap: 16px;
 }
 
 .result-item:last-child {
@@ -222,20 +238,24 @@ header {
     font-weight: 500;
     color: #1e293b;
     font-size: 15px;
+    flex: 0 0 150px; /* Fixed width for labels */
 }
 
 .result-value {
     font-size: 14px;
     color: #2d4059;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    flex: 1; /* Takes remaining space */
+    text-align: left;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal; /* Allows wrapping */
 }
 
 .result-status {
     font-size: 24px;
     line-height: 1;
+    flex: 0 0 40px;
+    text-align: right;
 }
 
 .result-status.pass {
@@ -246,6 +266,7 @@ header {
     color: #b22234;
 }
 
+/* ===== DECISION BUTTON ===== */
 .decision-btn {
     width: 100%;
     padding: 14px;
@@ -268,66 +289,15 @@ header {
     color: white;
 }
 
-.btn-plus {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: #0b2b4a;
-    color: white;
-    border: none;
-    font-size: 48px;
-    font-weight: 300;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
-    margin: 0 auto 12px auto;
-    display: block;
-    line-height: 1;
-}
-
-.btn-plus:hover {
-    background: #1a405f;
-    transform: scale(1.04);
-}
-
-.drop-text {
-    font-size: 18px;
-    font-weight: 500;
-    color: #1e293b;
-    margin: 8px 0 4px 0;
-}
-/* Process Button — default disabled */
-.btn-primary {
-    width: 100%;
-    background: #9aabbd;
-    color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 40px;
-    font-size: 18px;
-    font-weight: 600;
-    margin-top: 24px;
-    cursor: not-allowed;
-    transition: background 0.2s;
-}
-
-/* Process Button — enabled when images are uploaded */
-.btn-primary.enabled {
-    background: #0b2b4a;
-    cursor: pointer;
-}
-
-.btn-primary.enabled:hover {
-    background: #1a405f;
-}
-
 /* ===== FOOTER ===== */
 footer {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 32px;
     font-size: 13px;
     color: #7a8aa0;
     border-top: 1px solid #edf2f7;
-    padding-top: 20px;
+    padding: 20px 0 ;
+    background: #fafcff;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -345,5 +315,8 @@ footer {
     }
     .header-left h1 {
         font-size: 26px;
+    }
+    .result-label {
+        flex: 0 0 120px;
     }
 }
