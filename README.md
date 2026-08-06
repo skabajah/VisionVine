@@ -40,11 +40,13 @@ The `screenshots/` folder contains example results and test label images you can
 
 | **File** | **Description** |
 |----------|-----------------|
-| `pass-result.png` | Example of a PASS result |
-| `fail-result.png` | Example of a FAIL result |
-| `sample-label-1.png` | Sample label image 1 |
-| `sample-label-2.png` | Sample label image 2 |
-| `combined-label.png` | Combined label image |
+| `result-1.png` | PASS result — single label image |
+| `result-2.png` | PASS result — two separate images (front + back) |
+| `result-3.png` | PASS result — one image containing two labels (combined) |
+| `sample_1.jpg` | Sample label image 1 (distilled spirits) |
+| `sample_2a.jpg` | Sample label image 2a (front label) |
+| `sample_2b.jpg` | Sample label image 2b (back label) |
+| `sample_3.png` | Combined label image (front + back in one) |
 
 ---
 
