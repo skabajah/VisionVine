@@ -3,6 +3,7 @@
 // ============================================
 
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBwcgwD3p6tseMBQBFdK6ulyOyfVLD9qMD77N6oXEVRDlJLMyPuFMFcf1FYJ_69leRgw/exec";
+
 const CORS_PROXY = "https://api.allorigins.win/raw?url=";
 
 const dropZone = document.getElementById("dropZone");
