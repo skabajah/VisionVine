@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
 from typing import List
@@ -98,6 +98,13 @@ async def process_label(files: List[UploadFile] = File(...)):
             "error": str(e)
         })
 
+
 @app.get("/health")
 async def health_check():
     return {"status": "ok", "message": "VisionVine is running"}
+
+@app.head("/health")
+async def health_head():
+    return Response()
+
+    
