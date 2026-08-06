@@ -11,7 +11,7 @@ app = FastAPI()
 # Serve static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Groq client
+# Groq client — uses environment variable on Render
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 client = groq.Client(api_key=GROQ_API_KEY)
 
@@ -84,6 +84,7 @@ async def process_label(file: UploadFile = File(...)):
             "success": False,
             "error": str(e)
         })
+
 
 @app.get("/health")
 async def health_check():
