@@ -114,11 +114,13 @@ visionvine/
 ├── main.py
 ├── requirements.txt
 ├── screenshots/
-│   ├── pass-result.png
-│   ├── fail-result.png
-│   ├── sample-label-1.png
-│   ├── sample-label-2.png
-│   └── combined-label.png
+│   ├── result-1.png
+│   ├── result-2.png
+│   ├── result-3.png
+│   ├── sample_1.jpg
+│   ├── sample_2a.jpg
+│   ├── sample_2b.jpg
+│   └── sample_3.png
 ├── static/
 │   ├── index.html
 │   ├── app.js
