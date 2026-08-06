@@ -123,9 +123,20 @@ processBtn.addEventListener("click", async () => {
 
         console.log(`📡 [7] Response received: ${response.status} ${response.statusText}`);
         
+        // 🔍 NEW: Log the raw response as text BEFORE parsing
+        const rawText = await response.text();
+        console.log("📄 [8] Raw response text:", rawText);
+
+        // Now try to parse it as JSON
         console.log("📄 [8] Parsing JSON response...");
-        const data = await response.json();
-        console.log("📄 [8] JSON parsed successfully:", data);
+        let data;
+        try {
+            data = JSON.parse(rawText);
+            console.log("✅ [8] JSON parsed successfully:", data);
+        } catch (parseError) {
+            console.error("❌ [8] Failed to parse JSON. Raw response was:", rawText);
+            throw new Error(`Backend returned invalid JSON: ${rawText.substring(0, 100)}...`);
+        }
 
         if (data.success) {
             console.log("✅ [9] Processing successful");
