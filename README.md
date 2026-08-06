@@ -53,11 +53,11 @@ The `screenshots/` folder contains example results and test label images you can
 | **Component** | **Technology** | **Homepage** |
 |---------------|----------------|--------------|
 | Backend | Python + FastAPI | [fastapi.tiangolo.com](https://fastapi.tiangolo.com) |
-| AI / OCR | Groq API (Qwen 3.6-27b) | [console.groq.com](https://console.groq.com) |
-| Frontend | HTML + CSS + JavaScript | — |
+| AI / OCR | Groq API (Qwen 3.6-27b) | [console.groq.com](https://console.groq.com/docs/model/qwen/qwen3.6-27b) |
 | Icons | Google Material Icons | [fonts.google.com/icons](https://fonts.google.com/icons) |
+| Frontend | HTML + CSS + JavaScript | — |
 | Hosting | Render | [render.com](https://render.com) |
-
+| Source Management | GitHub | [github.com](https://github.com) |
 ---
 
 ## UX Path
