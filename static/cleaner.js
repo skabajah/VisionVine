@@ -4,7 +4,6 @@
 
 function cleanGroqResponse(rawText) {
     try {
-        // Extract JSON from the response (remove markdown or extra text)
         const jsonMatch = rawText.match(/\{[\s\S]*\}/);
         if (!jsonMatch) {
             throw new Error("No JSON found in response");
@@ -12,26 +11,13 @@ function cleanGroqResponse(rawText) {
 
         const parsed = JSON.parse(jsonMatch[0]);
 
-        // Normalize field names
-        const keyMap = {
-            "Brand name": "brand_name",
-            "Class/Type": "class_type",
-            "ABV": "abv",
-            "Net contents": "net_contents",
-            "Government warning": "government_warning",
-            "Beverage type": "beverage_type"
-        };
-
+        // Normalize field names: lowercase + underscore
         const normalized = {};
         for (const [key, value] of Object.entries(parsed)) {
-            if (keyMap[key]) {
-                normalized[keyMap[key]] = value;
-            } else {
-                normalized[key] = value;
-            }
+            const newKey = key.toLowerCase().replace(/ /g, "_");
+            normalized[newKey] = value;
         }
 
-        // Validate fields
         const fields = ["brand_name", "class_type", "abv", "net_contents", "government_warning", "beverage_type"];
         const results = {};
         let allPass = true;
@@ -43,7 +29,6 @@ function cleanGroqResponse(rawText) {
             if (!present) allPass = false;
         }
 
-        // Check government warning ALL CAPS
         if (normalized.government_warning) {
             const warning = normalized.government_warning;
             results.government_warning.all_caps = (warning === warning.toUpperCase());

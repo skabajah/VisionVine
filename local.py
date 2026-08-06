@@ -16,6 +16,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Groq client
 # GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+GROQ_API_KEY = "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"
 
 client = groq.Client(api_key=GROQ_API_KEY)
 
