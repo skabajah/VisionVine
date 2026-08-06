@@ -1,10 +1,6 @@
 // ============================================
-// VisionVine – Frontend Logic
+// VisionVine – Frontend Logic (Render Version)
 // ============================================
-
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBwcgwD3p6tseMBQBFdK6ulyOyfVLD9qMD77N6oXEVRDlJLMyPuFMFcf1FYJ_69leRgw/exec";
-
-// const CORS_PROXY = "https://api.allorigins.win/raw?url=";
 
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
@@ -87,25 +83,13 @@ processBtn.addEventListener("click", async () => {
     resultsContainer.innerHTML = `<p class="placeholder">⏳ Waiting for results...</p>`;
 
     try {
-        // Convert images to base64
-        const imageData = await Promise.all(
-            uploadedFiles.map((file) => {
-                return new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => resolve(e.target.result);
-                    reader.readAsDataURL(file);
-                });
-            })
-        );
+        // Send only the first image (for now)
+        const formData = new FormData();
+        formData.append("file", uploadedFiles[0]);
 
-        // Send to AppScript via CORS proxy
-        const targetUrl = encodeURIComponent(APPS_SCRIPT_URL);
-        const response = await fetch(CORS_PROXY + targetUrl, {
+        const response = await fetch("/process", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ images: imageData })
+            body: formData
         });
 
         const data = await response.json();
@@ -180,13 +164,4 @@ function displayResults(data) {
     `;
 
     resultsContainer.innerHTML = html;
-}
-
-// ===== Reset (optional) =====
-function resetApp() {
-    uploadedFiles = [];
-    thumbnails.innerHTML = "";
-    resultsContainer.innerHTML = `<p class="placeholder">Upload a label and click "PROCESS THIS" to see results.</p>`;
-    statusMsg.textContent = "";
-    processBtn.disabled = true;
 }
