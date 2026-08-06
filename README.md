@@ -100,17 +100,8 @@ The `screenshots/` folder contains example results and test label images you can
 
 **Free Tier Notes:**
 - The app runs on Render's free tier — if inactive for 15 minutes, it goes to sleep. It will wake up automatically on the next visit (may take 5–15 seconds).
-- Groq API is used on the free tier — token limits apply (200,000 tokens per day). If exceeded, you may see a rate limit error. Wait a few minutes and try again.
-
----
-
-## Future Enhancements
-
-- Add batch upload support (multiple products at once)
-- Support beer and wine labels
-- Add matching against application form data
-- Export results to CSV or PDF
-- Improved fuzzy matching for brand names
+- Groq API is used on the free tier — token limits apply (200,000 tokens per day). If exceeded, you may see a rate limit error. 
+ 
 
 ---
 
