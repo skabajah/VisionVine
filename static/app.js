@@ -45,6 +45,7 @@ function setButtonState(state) {
 
 // ===== Reset the app =====
 function resetApp() {
+    fileInput.value = "";
     uploadedFiles = [];
     thumbnails.innerHTML = "";
     resultsContainer.innerHTML = `<p class="placeholder">Results will appear here.</p>`;
