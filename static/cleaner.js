@@ -1,6 +1,10 @@
-// ============================================================
-// VisionVine – Data Cleaner
-// ============================================================
+/*
+   VisionVine 
+   Aug 2026 
+   Shadi Kabajah
+   skabajah@icloud.com
+   skabajah.github.io 
+*/
 
 function cleanGroqResponse(rawText) {
     try {

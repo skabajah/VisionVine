@@ -1,8 +1,10 @@
-// ============================================================
-// VisionVine – Frontend Logic (Render Version)
-// ============================================================
-// Multi-Image Support | Reset via window.location.reload()
-// ============================================================
+/*
+   VisionVine 
+   Aug 2026 
+   Shadi Kabajah
+   skabajah@icloud.com
+   skabajah.github.io 
+*/
 
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
