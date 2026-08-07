@@ -40,6 +40,10 @@ header {
     padding-bottom: 18px;
     border-bottom: 1px solid #e9edf4;
 }
+header img {
+    height: 40px;
+    vertical-align: middle;
+}
 
 .header-left h1 {
     font-size: 32px;
