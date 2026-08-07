@@ -137,7 +137,8 @@ visionvine/
 │   ├── index.html
 │   ├── app.js
 │   ├── cleaner.js
-│   └── style.css
+│   ├── style.css
+│   └── icon.svg
 └── README.md
 ```
 
