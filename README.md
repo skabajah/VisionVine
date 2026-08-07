@@ -1,4 +1,4 @@
-# VisionVine  
+# <img src="/static/icon.svg" height="40" style="vertical-align: middle; margin-right: 10px;"> VisionVine
 *AI-Powered Alcohol Label Verification*
 
 ---
