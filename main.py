@@ -1,3 +1,9 @@
+# VisionVine
+# Aug 2026
+# Shadi Kabajah
+# skabajah@icloud.com
+# skabajah.github.io
+
 from fastapi import FastAPI, UploadFile, File, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
