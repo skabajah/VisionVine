@@ -142,12 +142,6 @@ visionvine/
 └── README.md
 ```
 
----
-
-## Contact
-
-**Shadi Kabajah**  
-skabajah@icloud.com 
 
 
 ---
