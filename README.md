@@ -1,4 +1,4 @@
-# <img src="/static/icon.svg" height="40" style="vertical-align: middle; pointer-events: none;"> VisionVine
+# <img src="https://skabajah.github.io/VisionVine/static/icon.svg" height="40" style="vertical-align: middle; pointer-events: none;"> VisionVine
 *AI-Powered Alcohol Label Verification*
 
 ---
