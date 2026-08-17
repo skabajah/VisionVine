@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VisionVine · AI Label Verification</title>
+<style type="text/css">
+  body {
+  font-family: Arial, sans-serif;
+}
+
+table {
+  background: #f5f5f5;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+}
+
+th {
+  background: #e8e8e8;
+}
+
+</style>
+</head>
+<body>
+
+<!-- header with logo (inline style only for sizing) -->
+<div>
+  <img src="https://skabajah.github.io/VisionVine/static/icon.svg" alt="VisionVine icon" height="40" style="vertical-align:middle;" />
+  <strong>VisionVine</strong>
+  <em>AI-Powered Alcohol Label Verification</em>
+  <hr />
+</div>
+
+<!-- author, date, live demo -->
+<p>
+  <strong>Author:</strong> Shadi Kabajah<br />
+  <strong>Email:</strong> skabajah@icloud.com<br />
+  <strong>Date:</strong> August 9, 2026<br />
+  <strong>Live Demo:</strong> <a href="https://visionvine.onrender.com" target="_blank">https://visionvine.onrender.com</a>
+</p>
+<hr />
+
+<!-- overview -->
+<h2>Overview</h2>
+<p>
+  VisionVine is a web application that uses AI (Groq's Qwen 3.6-27b vision model) to extract and validate information from alcohol beverage labels.
+  It is designed to assist TTB compliance agents in verifying that labels meet regulatory requirements — reducing manual review time from minutes to seconds.
+</p>
+
+<!-- features -->
+<hr />
+<h2>Features</h2>
+<ul>
+  <li>Upload <strong>1–3 images per product</strong> (front label, back label, angle shots)</li>
+  <li>Supports:
+    <ul>
+      <li><strong>Single label image</strong> (one picture)</li>
+      <li><strong>Multiple images</strong> (2–3 pictures of the same product)</li>
+      <li><strong>Combined label</strong> (multiple labels in one image)</li>
+    </ul>
+  </li>
+  <li>AI-powered text extraction (brand, class/type, ABV, net contents, government warning)</li>
+  <li>Automatic beverage type detection (spirits, wine, beer)</li>
+  <li>Validation of required fields</li>
+  <li>Government Warning header check (must be in ALL CAPS)</li>
+  <li>Pass/Fail results with field-by-field status</li>
+  <li>Clean, modern UI with Material Icons</li>
+  <li>Responsive design for desktop and mobile</li>
+</ul>
+
+<!-- demo example -->
+<hr />
+<h2>Demo Example</h2>
+<p>The <code>screenshots/</code> folder contains example results and test label images you can download and use to test the app.</p>
+
+<table border="1" cellpadding="6">
+  <tr>
+    <th>File</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>result-1.png</code></td>
+    <td>PASS result — single label image</td>
+  </tr>
+  <tr>
+    <td><code>result-2.png</code></td>
+    <td>PASS result — two separate images (front + back)</td>
+  </tr>
+  <tr>
+    <td><code>result-3.png</code></td>
+    <td>PASS result — one image containing two labels (combined)</td>
+  </tr>
+  <tr>
+    <td><code>sample_1.jpg</code></td>
+    <td>Sample label image 1 (distilled spirits)</td>
+  </tr>
+  <tr>
+    <td><code>sample_2a.jpg</code></td>
+    <td>Sample label image 2a (front label)</td>
+  </tr>
+  <tr>
+    <td><code>sample_2b.jpg</code></td>
+    <td>Sample label image 2b (back label)</td>
+  </tr>
+  <tr>
+    <td><code>sample_3.png</code></td>
+    <td>Combined label image (front + back in one)</td>
+  </tr>
+</table>
+
+<h3>Gallery Preview</h3>
+<p><em>Click any image to expand (opens in new tab).</em></p>
+
+<!-- gallery: input / output pairs (simple table) -->
+<table border="1" cellpadding="8">
+  <tr>
+    <th>Input</th>
+    <th>Output</th>
+  </tr>
+  <tr>
+    <td>
+      <a href="screenshots/sample_1.jpg" target="_blank">
+        <img src="screenshots/sample_1.jpg" alt="Sample 1" width="150" border="1" />
+      </a><br />
+      <sub>Single label image</sub>
+    </td>
+    <td>
+      <a href="screenshots/result-1.png" target="_blank">
+        <img src="screenshots/result-1.png" alt="Result 1" width="400" border="1" />
+      </a><br />
+      <sub>✅ PASS — single label</sub>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="screenshots/sample_2a.jpg" target="_blank">
+        <img src="screenshots/sample_2a.jpg" alt="Sample 2a" width="150" border="1" />
+      </a>
+      <a href="screenshots/sample_2b.jpg" target="_blank">
+        <img src="screenshots/sample_2b.jpg" alt="Sample 2b" width="150" border="1" />
+      </a><br />
+      <sub>Two separate images (front + back)</sub>
+    </td>
+    <td>
+      <a href="screenshots/result-2.png" target="_blank">
+        <img src="screenshots/result-2.png" alt="Result 2" width="400" border="1" />
+      </a><br />
+      <sub>✅ PASS — two images</sub>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href="screenshots/sample_3.png" target="_blank">
+        <img src="screenshots/sample_3.png" alt="Sample 3" width="150" border="1" />
+      </a><br />
+      <sub>One image containing two labels (combined)</sub>
+    </td>
+    <td>
+      <a href="screenshots/result-3.png" target="_blank">
+        <img src="screenshots/result-3.png" alt="Result 3" width="400" border="1" />
+      </a><br />
+      <sub>✅ PASS — combined label</sub>
+    </td>
+  </tr>
+</table>
+
+<!-- tech stack -->
+<h2>Tech Stack</h2>
+<table border="1" cellpadding="5">
+  <tr>
+    <th>Component</th>
+    <th>Technology</th>
+    <th>Homepage</th>
+  </tr>
+  <tr>
+    <td>Backend</td>
+    <td>Python + FastAPI</td>
+    <td><a href="https://fastapi.tiangolo.com" target="_blank">fastapi.tiangolo.com</a></td>
+  </tr>
+  <tr>
+    <td>AI / OCR</td>
+    <td>Groq API (Qwen 3.6-27b)</td>
+    <td><a href="https://console.groq.com/docs/model/qwen/qwen3.6-27b" target="_blank">console.groq.com</a></td>
+  </tr>
+  <tr>
+    <td>Icons</td>
+    <td>Google Material Icons</td>
+    <td><a href="https://fonts.google.com/icons" target="_blank">fonts.google.com/icons</a></td>
+  </tr>
+  <tr>
+    <td>Frontend</td>
+    <td>HTML + CSS + JavaScript</td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td>Hosting</td>
+    <td>Render</td>
+    <td><a href="https://render.com" target="_blank">render.com</a></td>
+  </tr>
+  <tr>
+    <td>Source Management</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com" target="_blank">github.com</a></td>
+  </tr>
+</table>
+
+<!-- UX path -->
+<h2>UX Path</h2>
+<ol>
+  <li>User lands on the page and sees a clean split-screen layout.</li>
+  <li>On the left panel, the user drags and drops <strong>1–3 images</strong> of an alcohol label (or clicks the + button to browse).</li>
+  <li>The user clicks <strong>"Verify Label"</strong>.</li>
+  <li>The app sends the image(s) to the backend, which calls Groq's vision model to extract:
+    <ul>
+      <li>Brand name</li>
+      <li>Class/Type</li>
+      <li>ABV</li>
+      <li>Net contents</li>
+      <li>Government warning</li>
+      <li>Beverage type</li>
+    </ul>
+  </li>
+  <li>The extracted data is validated against TTB requirements.</li>
+  <li>Results appear on the right panel with:
+    <ul>
+      <li>Field-by-field PASS/FAIL status</li>
+      <li>Government Warning header check (must be in ALL CAPS)</li>
+      <li>Overall PASS or FAIL decision</li>
+    </ul>
+  </li>
+  <li>The user can click <strong>"Start Over"</strong> to reset and test another label.</li>
+</ol>
+
+<!-- assumptions -->
+<h2>Assumptions</h2>
+<ul>
+  <li>Supports 1–3 images per product</li>
+  <li>Focus on distilled spirits labels (based on the sample provided in the assessment)</li>
+  <li>Government Warning check only verifies the header is in ALL CAPS (not the full text)</li>
+  <li>The app is a prototype and does not cover all legal variations</li>
+  <li>Images should be clear enough for OCR (JPG, PNG, WebP supported)</li>
+</ul>
+
+<!-- limitations -->
+<h2>Limitations</h2>
+<ul>
+  <li>Batch upload for multiple products not yet implemented</li>
+  <li>No matching against application form data</li>
+  <li>Only one image is processed per request (the first uploaded)</li>
+  <li>Wine and beer labels may have lower OCR accuracy due to decorative fonts</li>
+</ul>
+<p><strong>Free Tier Notes:</strong></p>
+<ul>
+  <li>The app runs on Render's free tier — if inactive for 15 minutes, it goes to sleep. It will wake up automatically on the next visit (may take 5–15 seconds).</li>
+  <li>Groq API is used on the free tier — token limits apply (200,000 tokens per day). If exceeded, you may see a rate limit error.</li>
+</ul>
+
+<!-- file structure -->
+<h2>File Structure</h2>
+<pre>
+visionvine/
+├── main.py
+├── requirements.txt
+├── screenshots/
+│   ├── result-1.png
+│   ├── result-2.png
+│   ├── result-3.png
+│   ├── sample_1.jpg
+│   ├── sample_2a.jpg
+│   ├── sample_2b.jpg
+│   └── sample_3.png
+├── static/
+│   ├── index.html
+│   ├── app.js
+│   ├── cleaner.js
+│   ├── style.css
+│   └── icon.svg
+└── README.md
+</pre>
+
+<!-- contact & license -->
+<h2>Contact</h2>
+<p>
+  <strong>Shadi Kabajah</strong><br />
+  skabajah@icloud.com
+</p>
+
+<h2>License</h2>
+<p>All Rights Reserved &copy; Shadi Kabajah</p>
+
+<hr />
+<!-- tiny footer: logo link (as in the log) -->
+<p>
+  <img src="https://skabajah.github.io/VisionVine/static/icon.svg" alt="icon" height="24" style="vertical-align:middle;" />
+  <span>VisionVine · AI-Powered Alcohol Label Verification</span>
+</p>
+
+</body>
+</html>
