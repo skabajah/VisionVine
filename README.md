@@ -7,7 +7,7 @@
 
 - **Author:** Shadi Kabajah
 - **Email:** skabajah@icloud.com
-- **Date:** August 2026
+- **Date:** August 9, 2026
 - **Live Demo:** [https://visionvine.onrender.com](https://visionvine.onrender.com)
 
 ---
