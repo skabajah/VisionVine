@@ -148,3 +148,10 @@ visionvine/
 
 **Shadi Kabajah**  
 skabajah@icloud.com 
+
+
+---
+
+## License
+
+All Rights Reserved © Shadi Kabajah
